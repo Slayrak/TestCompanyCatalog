@@ -13,5 +13,7 @@
         public int BossId { get; set; }
         public Employee Boss { get; set; }
 
+        public List<Employee> Subordinates { get; set; }
+
     }
 }

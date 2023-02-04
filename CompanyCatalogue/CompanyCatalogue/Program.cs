@@ -1,7 +1,11 @@
+using CompanyCatalogue.ServicesConfigurations;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDataAccess(builder.Configuration);
 
 var app = builder.Build();
 
