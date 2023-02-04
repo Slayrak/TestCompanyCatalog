@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CompanyCatalogue.Migrations
 {
     [DbContext(typeof(CatalogueDbContext))]
-    [Migration("20230204111949_InitialCreate")]
+    [Migration("20230204213211_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -33,16 +33,18 @@ namespace CompanyCatalogue.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BossId")
+                    b.Property<int?>("BossId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DateOfEmployment")
+                    b.Property<DateTime>("DateOfEmployment")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PNS")
+                    b.Property<string>("Fullname")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Position")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -57,8 +59,7 @@ namespace CompanyCatalogue.Migrations
                     b.HasOne("CompanyCatalogue.Models.Employee", "Boss")
                         .WithMany("Subordinates")
                         .HasForeignKey("BossId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Boss");
                 });

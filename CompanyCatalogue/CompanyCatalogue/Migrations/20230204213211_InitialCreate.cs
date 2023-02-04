@@ -17,10 +17,10 @@ namespace CompanyCatalogue.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PNS = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Position = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateOfEmployment = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    BossId = table.Column<int>(type: "int", nullable: false)
+                    Fullname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateOfEmployment = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BossId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
