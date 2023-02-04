@@ -8,7 +8,7 @@ namespace CompanyCatalogue.ServicesConfigurations
         public static IServiceCollection AddDataAccess(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<CatalogueDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("CatalogueDb")));
+                options.UseSqlServer(configuration.GetConnectionString("CompanyCatalogue")));
 
             return services;
         }

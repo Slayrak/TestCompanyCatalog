@@ -26,7 +26,9 @@ namespace CompanyCatalogue.DataAccess
             modelBuilder.Entity<Employee>()
                 .HasOne(x => x.Boss)
                 .WithMany(x => x.Subordinates)
-                .HasForeignKey(x => x.BossId);
+                .HasForeignKey(x => x.BossId)
+                .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }
