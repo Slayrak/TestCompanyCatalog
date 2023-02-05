@@ -1,4 +1,7 @@
+using CompanyCatalogue.DataAccess;
 using CompanyCatalogue.ServicesConfigurations;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDataAccess(builder.Configuration);
+
 
 var app = builder.Build();
 
@@ -19,6 +23,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.MigrateDatabase();
 
 app.UseRouting();
 

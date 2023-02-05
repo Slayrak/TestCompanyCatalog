@@ -8,6 +8,7 @@
 
         public string Position { get; set; }
 
+        public int Salary { get; set; }
         public DateTime DateOfEmployment { get; set; }
         
         public int? BossId { get; set; }

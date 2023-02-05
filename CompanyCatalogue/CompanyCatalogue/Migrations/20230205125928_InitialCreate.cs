@@ -19,6 +19,7 @@ namespace CompanyCatalogue.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Fullname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Salary = table.Column<int>(type: "int", nullable: false),
                     DateOfEmployment = table.Column<DateTime>(type: "datetime2", nullable: false),
                     BossId = table.Column<int>(type: "int", nullable: true)
                 },

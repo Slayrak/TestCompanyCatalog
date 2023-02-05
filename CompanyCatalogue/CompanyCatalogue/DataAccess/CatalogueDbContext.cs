@@ -29,6 +29,11 @@ namespace CompanyCatalogue.DataAccess
                 .HasForeignKey(x => x.BossId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            //modelBuilder.Entity<Employee>().HasData(DataGenerator.Generate());
+            //modelBuilder.Entity<Employee>().HasData(DataGenerator.Generate());
+                
+
+
         }
     }
 }

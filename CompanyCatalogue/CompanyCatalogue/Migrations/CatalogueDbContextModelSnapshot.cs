@@ -44,6 +44,9 @@ namespace CompanyCatalogue.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Salary")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BossId");
