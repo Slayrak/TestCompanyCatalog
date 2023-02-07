@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Employee>
+﻿@model CompanyCatalogue.Models.PassingModels.ListPassModel
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -6,34 +6,6 @@
 @{
 }
 
-@for(int i = 0; i < 50; i++)
-{@*
-    <p>@Model.ElementAt(i).Fullname</p>*@
-    <div class="card mb-2" style="display:flex; flex-direction:row;">
-            <div style="display:flex; align-items: center; width: 175px; justify-content: center;">
-                <img src="https://via.placeholder.com/250 " class="card-img-left" alt="..." style="max-height: 150px; max-width: 150px;">
-            </div>
-            <div class="col-md-9">
-                <div class="card-body">
-                    <h5 class="card-title">@Model.ElementAt(i).Fullname</h5>
-                    <p class="card-text">@Model.ElementAt(i).Position</p>
-                    <p class="card-text">@Model.ElementAt(i).Salary USD</p>
-                    <p class="card-text">@Model.ElementAt(i).DateOfEmployment</p>
-                </div>
-            </div>
-    </div>
-
-   @* <div class="image-text-container" style="display:flex; flex-direction:row;">
-        <div style="width=100px; display:flex;">
-            <img src="https://via.placeholder.com/150 " class="card-img-left" alt="...">
-        </div>
-        <div>
-            <div style="display:flex; flex-direction: column">
-                <h5 class="card-title">@Model.ElementAt(i).Fullname</h5>
-                <p class="card-text">@Model.ElementAt(i).Position</p>
-                <p class="card-text">@Model.ElementAt(i).Salary USD</p>
-                <p class="card-text">@Model.ElementAt(i).DateOfEmployment</p>
-            </div>
-        </div>
-    </div>*@
-}
+<div id="EditCustomerPartial">
+    @Html.Partial("PartialTest", Model)
+</div>
