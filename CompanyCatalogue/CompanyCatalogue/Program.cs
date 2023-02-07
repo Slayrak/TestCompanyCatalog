@@ -1,6 +1,7 @@
 using CompanyCatalogue.DataAccess;
 using CompanyCatalogue.Interfaces;
 using CompanyCatalogue.Repositories;
+using CompanyCatalogue.Services;
 using CompanyCatalogue.ServicesConfigurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDataAccess(builder.Configuration);
 
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 var app = builder.Build();
 

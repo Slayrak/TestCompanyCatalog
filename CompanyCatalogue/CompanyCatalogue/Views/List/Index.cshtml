@@ -7,5 +7,33 @@
 }
 
 <div id="EditCustomerPartial">
-    @Html.Partial("PartialTest", Model)
+    <div id="ForPartial">
+        @Html.Partial("PartialTest", Model)
+    </div>
 </div>
+
+@if (Model.Number < Model.Employees.Count())
+{
+    <input type="button" value="Load more" id="LoadMore" />
+
+
+    @section Scripts
+    {
+    <script type="text/javascript">
+        $('#LoadMore').click(function () {
+            var num = @Model.Number + 20;
+
+            $.ajax({
+                url: "@(Url.Action("LoadMore", "List"))",
+                    type: "Get",
+                    data: {num},
+                    cache: false,
+                    async: true,
+                    success: function (data) {
+                        $('#ForPartial').html(data);
+                    }
+                });
+            });
+        </script>
+    }
+}
