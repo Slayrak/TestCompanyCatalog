@@ -26,4 +26,8 @@
     <Folder Include="Views\Tree\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\images\placeholder.png" />
+  </ItemGroup>
+
 </Project>
