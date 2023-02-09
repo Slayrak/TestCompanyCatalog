@@ -43,7 +43,7 @@ namespace CompanyCatalogue.Repositories
                     }
                     else
                     {
-                        await _context.Employees
+                        return await _context.Employees
                             .OrderByDescending(x => x.Fullname)
                             .Skip((pageOptions.PageNumber - 1) * pageOptions.PageSize)
                             .Take(pageOptions.PageSize)
@@ -53,7 +53,7 @@ namespace CompanyCatalogue.Repositories
                 case "Position":
                     if (pageOptions.SortingDirection == "Ascending")
                     {
-                        await _context.Employees
+                        return await _context.Employees
                             .OrderBy(x => x.Position)
                             .Skip((pageOptions.PageNumber - 1) * pageOptions.PageSize)
                             .Take(pageOptions.PageSize)
@@ -61,7 +61,7 @@ namespace CompanyCatalogue.Repositories
                     }
                     else
                     {
-                        await _context.Employees
+                        return await _context.Employees
                              .OrderByDescending(x => x.Position)
                              .Skip((pageOptions.PageNumber - 1) * pageOptions.PageSize)
                              .Take(pageOptions.PageSize)
@@ -71,7 +71,7 @@ namespace CompanyCatalogue.Repositories
                 case "Salary":
                     if (pageOptions.SortingDirection == "Ascending")
                     {
-                        await _context.Employees
+                        return await _context.Employees
                             .OrderBy(x => x.Salary)
                             .Skip((pageOptions.PageNumber - 1) * pageOptions.PageSize)
                             .Take(pageOptions.PageSize)
@@ -79,7 +79,7 @@ namespace CompanyCatalogue.Repositories
                     }
                     else
                     {
-                        await _context.Employees
+                        return await _context.Employees
                             .OrderByDescending(x => x.Position)
                             .Skip((pageOptions.PageNumber - 1) * pageOptions.PageSize)
                             .Take(pageOptions.PageSize)
@@ -89,7 +89,7 @@ namespace CompanyCatalogue.Repositories
                 case "Date of Employment":
                     if (pageOptions.SortingDirection == "Ascending")
                     {
-                        await _context.Employees
+                        return await _context.Employees
                             .OrderBy(x => x.Position)
                             .Skip((pageOptions.PageNumber - 1) * pageOptions.PageSize)
                             .Take(pageOptions.PageSize)
@@ -97,7 +97,7 @@ namespace CompanyCatalogue.Repositories
                     }
                     else
                     {
-                        await _context.Employees
+                        return await _context.Employees
                             .OrderByDescending(x => x.Position)
                             .Skip((pageOptions.PageNumber - 1) * pageOptions.PageSize)
                             .Take(pageOptions.PageSize)
@@ -122,7 +122,7 @@ namespace CompanyCatalogue.Repositories
 
         public async Task<Employee> GetByIdAsync(int id)
         {
-            return await _context.Employees.Include(x => x.Subordinates).FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Employees.Include(x => x.Subordinates).Include(x => x.Boss).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Employee> GetTree(int id)

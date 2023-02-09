@@ -1,0 +1,118 @@
+﻿@model Employee
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div id="listJs" value="@Model"></div>
+
+<button id="testingButton">Click me!</button>
+
+@*@section Scripts
+{
+    <script type="text/javascript">
+        $("document").ready(function () {
+            let markupArray = ['<ul>'];
+
+            //var check = document.getElementById('listJs').getAttribute('value')
+
+            //for (var i = 0; i < check.length; i++)
+            //{
+            //    alert(check[i]);
+            //}
+
+            //alert(check);
+        });
+
+        $("#testingButton").click(function() {
+
+            alert(@Model);
+
+            //createList(@Model);
+            markupArray.push("</ul>");
+            $("#listJs").html(markupArray.join(""));
+
+        })
+
+
+        const getItems = (items) => {
+            for (const item in items) {
+                // push li tags for parent
+                // with nested opening ul tag for children
+                markupArray.push(`<li> <a> ${item} </a> <ul>`);
+                // evaluate expression for children
+                createList(items[item]);
+                // push closing tage
+                markupArray.push("</ul></li>");
+            }
+        };
+
+        const createList = (items) => {
+            switch ($.type(items)) {
+                case "object":
+                    getItems(items);
+                    break;
+                case "string":
+                    markupArray.push(`<li> <span> ${items} </span> </li>`);
+                    break;
+                case "array":
+                    items.forEach((item) => {
+                        createList(item);
+                    });
+                    break;
+            }
+        };
+
+
+        //window.onload = () => {
+        //   alert(@Model);
+        //};
+
+        //const createList = (items) => {
+        //    switch ($.type(items)) {
+        //        case "object":
+        //            getItems(items);
+        //            break;
+        //        case "string":
+        //            markupArray.push(`<li> <span> ${items} </span> </li>`);
+        //            break;
+        //        case "array":
+        //            items.forEach((item) => {
+        //                createList(item);
+        //            });
+        //            break;
+        //    }
+        //};
+
+        //const createList = (items) => {
+        //    case "array":
+        //    items.forEach((item) => {
+        //    createList(item);
+        //    });
+        //    break;
+        //  }
+        //};
+    </script>
+
+}
+*@
+
+    @section Scripts
+    {
+
+    <script type="text/javascript">
+
+        $("#testingButton").click(function () {
+
+            alert(@Model);
+
+            //createList(@Model);
+            markupArray.push("</ul>");
+            $("#listJs").html(markupArray.join(""));
+
+        })
+    </script>
+
+    }

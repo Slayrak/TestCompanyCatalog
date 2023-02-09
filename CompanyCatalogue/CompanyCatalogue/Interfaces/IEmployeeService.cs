@@ -4,7 +4,7 @@ namespace CompanyCatalogue.Interfaces
 {
     public interface IEmployeeService
     {
-        Task<Employee> GetLowerLevel(Employee employee);
+        Task<Employee> GetLowerLevel(int id);
 
         Task<Employee> GetUpperLevel(Employee employee);
 

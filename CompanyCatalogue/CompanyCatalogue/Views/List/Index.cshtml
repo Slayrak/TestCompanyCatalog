@@ -9,7 +9,7 @@
 <div id="maxNUmberOfPages" type="hidden" value="@Model.Number"></div>
 <div id="shiftValue" type="hidden" value="1"></div>
 
-<div id="EditCustomerPartial">
+<div id="EditCustomerPartial" style="display:flex; justify-content: flex-end; flex-direction:column">
     <div class="sortFilter" style="display: flex; justify-content:space-around; flex-direction: row; margin-bottom: 30px"> 
         <select class="form-control" id="SortingOptions" style="width: 30%;">
             <option>Name</option>
@@ -40,26 +40,76 @@
 
     @section Scripts
     {
+
     <script type="text/javascript">
-        $('#LoadMore').click(function () {
-            var num = 2;
+
+        document.getElementById('SortingOptions').onchange = function () {
+
+            var ul = document.getElementById("pagination");
+            var items = ul.getElementsByTagName("li");
+            var minPage = 1;
+            var maxPage = @Model.Number;
+            var localMax = 0;
+            var localMin = 1;
+
+            var shift = Number(document.getElementById('shiftValue').getAttribute('value'));
+
+            if(shift - 2 < minPage)
+            {
+                localMin = 1;
+            } else {
+                localMin = shift - 2;
+            }
+
+            if(shift + 2 > maxPage)
+            {
+                localMax = maxPage
+            } else {
+                localMax = shift + 2;
+            }
+
+            for (var i = 0; i < items.length; i++) {
+                
+                items[i].children[0].innerHTML = localMin;
+                localMin++;
+                items[i].children[0].style.backgroundColor = 'white';
+
+                if (items[i].textContent == shift)
+                {
+                    items[i].children[0].style.backgroundColor = '#EAECEF';
+                }
+            }
+            
+
+            for (var i = items.length - 1; i >= 0; i--) 
+            {
+
+                if (localMax < items[i].textContent)
+                 {
+                     items[i].hidden = true;
+                 } else {
+                     items[i].hidden = false;
+                 }
+
+            }
+
+            var num = shift;
             var type = document.getElementById("SortingOptions").value;
             var direction = document.getElementById("AscendingDescending").value;
 
-        $.ajax({
-            url: "@(Url.Action("LoadMore", "List"))",
+            $.ajax({
+                url: "@(Url.Action("LoadMore", "List"))",
                 type: "Get",
-                data: {num, type, direction},
+                data: { num, type, direction },
                 cache: false,
                 async: true,
                 success: function (data) {
                     $('#ForPartial').html(data);
                 }
             });
-        });
-    </script>
 
-    <script type="text/javascript">
+        }
+
         $("#pagination li").click(function () {
 
             var ul = document.getElementById("pagination");
