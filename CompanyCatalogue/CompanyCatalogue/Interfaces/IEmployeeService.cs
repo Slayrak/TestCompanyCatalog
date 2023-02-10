@@ -6,8 +6,6 @@ namespace CompanyCatalogue.Interfaces
     {
         Task<Employee> GetLowerLevel(int id);
 
-        Task<Employee> GetUpperLevel(Employee employee);
-
         Task<Employee> GetFullTree(Employee employee);
     }
 }

@@ -48,7 +48,6 @@ namespace CompanyCatalogue.Repositories
                             .Take(pageOptions.PageSize)
                             .ToListAsync();
                     }
-                    break;
                 case "Position":
                     if (pageOptions.SortingDirection == "Ascending")
                     {
@@ -66,7 +65,6 @@ namespace CompanyCatalogue.Repositories
                              .Take(pageOptions.PageSize)
                              .ToListAsync();
                     }
-                    break;
                 case "Salary":
                     if (pageOptions.SortingDirection == "Ascending")
                     {
@@ -84,7 +82,6 @@ namespace CompanyCatalogue.Repositories
                             .Take(pageOptions.PageSize)
                             .ToListAsync();
                     }
-                    break;
                 case "Date of Employment":
                     if (pageOptions.SortingDirection == "Ascending")
                     {
@@ -102,7 +99,6 @@ namespace CompanyCatalogue.Repositories
                             .Take(pageOptions.PageSize)
                             .ToListAsync();
                     }
-                    break;
                 default:
                     break;
             }
@@ -151,7 +147,6 @@ namespace CompanyCatalogue.Repositories
                             .Take(pageOptions.PageSize)
                             .ToListAsync();
                     }
-                    break;
                 case "Position":
                     if (pageOptions.SortingDirection == "Ascending")
                     {
@@ -185,7 +180,6 @@ namespace CompanyCatalogue.Repositories
                              .Take(pageOptions.PageSize)
                              .ToListAsync();
                     }
-                    break;
                 case "Salary":
                     if (pageOptions.SortingDirection == "Ascending")
                     {
@@ -219,7 +213,6 @@ namespace CompanyCatalogue.Repositories
                             .Take(pageOptions.PageSize)
                             .ToListAsync();
                     }
-                    break;
                 case "Date of Employment":
                     if (pageOptions.SortingDirection == "Ascending")
                     {
@@ -253,7 +246,6 @@ namespace CompanyCatalogue.Repositories
                             .Take(pageOptions.PageSize)
                             .ToListAsync();
                     }
-                    break;
                 default:
                     break;
             }

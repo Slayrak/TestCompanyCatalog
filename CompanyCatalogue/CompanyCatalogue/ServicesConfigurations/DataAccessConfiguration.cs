@@ -11,6 +11,9 @@ namespace CompanyCatalogue.ServicesConfigurations
             services.AddDbContext<CatalogueDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("CompanyCatalogue")));
 
+            services.AddDbContext<IdentityDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("IdentityCompanyCatalogue")));
+
             return services;
         }
 
@@ -27,7 +30,6 @@ namespace CompanyCatalogue.ServicesConfigurations
                     }
                     catch (Exception ex)
                     {
-                        //Log errors or do anything you think it's needed
                         throw;
                     }
                 }

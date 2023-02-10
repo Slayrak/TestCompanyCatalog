@@ -36,11 +36,6 @@ namespace CompanyCatalogue.Services
             return test;
         }
 
-        public async Task<Employee> GetUpperLevel(Employee employee)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<Employee> GoLower(Employee employee)
         {
             List<Employee> employees = new List<Employee>();
