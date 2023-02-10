@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Employee>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@for (int i = 0; i < Model.Count(); i++)
+{@*
+    <p>@Model.ElementAt(i).Fullname</p>*@
+
+
+    <div class="card mb-2" style="display:flex; flex-direction:row;">
+        <div style="display:flex; align-items: center; width: 175px; justify-content: center;">
+            <img src="~/images/placeholder.png" class="card-img-left" alt="..." style="max-height: 150px; max-width: 150px;">
+        </div>
+        <div class="col-md-5">
+            <div class="card-body">
+                <h5 class="card-title">@Model.ElementAt(i).Fullname</h5>
+                <p class="card-text">@Model.ElementAt(i).Position</p>
+                <p class="card-text">@Model.ElementAt(i).Salary USD</p>
+                <p class="card-text">@Model.ElementAt(i).DateOfEmployment</p>
+            </div>
+        </div>
+        <div style="display: flex; justify-content:center; align-items:center; width: 200px">
+            <div class="btn-group" role="group" aria-label="Basic example" style="height:20%; width: 100%">
+                <a type="button" class="btn btn-outline-dark" asp-area="" asp-controller="Tree" asp-action="Index" asp-route-id="@Model.ElementAt(i).Id">Tree </a>
+            </div>
+        </div>
+    </div>
+}
+
+

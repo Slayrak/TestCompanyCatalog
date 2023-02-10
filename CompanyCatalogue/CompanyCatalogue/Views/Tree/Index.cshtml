@@ -1,0 +1,128 @@
+﻿@using Newtonsoft.Json
+
+@model Employee
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div id="forList" style="display: flex; flex:1 1 auto; min-height: 750px;"></div>
+
+@section Scripts
+    {
+    <script type="text/javascript">
+        $("document").ready(function () {
+
+            let obj;
+
+            $.ajax({
+                url: "@Url.Action("GetTree", "Tree")",
+                dataType: "json",
+                type: "POST",
+                data: { id: Number(@Model.Id) },
+                success: function (data) {
+                    obj = JSON.parse(data);
+
+                    let newArray = []
+
+                    getTree(obj, newArray)
+
+                    for (var i = 0; i < newArray.length; i++) {
+                        var node = newArray[i];
+
+                        if(node.id == @Model.Id)
+                        {
+                            node.tags = ["chosen"];
+                        } else {
+                            node.tags = ["common"];
+                        }
+                    }
+
+                    OrgChart.templates.ula.size = [400, 150];
+
+                    //'<text data-width="135" class="olivia - f0" x="100" y="55" data - text - overflow="multiline" > { val } < /text>'
+                    
+
+                    var chart = new OrgChart(document.getElementById("forList"), {
+
+                        scaleInitial: OrgChart.match.height,
+                        template: "ula",
+                        nodeBinding: {
+                            field_0: "Fullname",
+                            field_1: "Position",
+                            img_0: "img",
+                            
+                        },
+                        editForm: {
+                            buttons: {
+                                map: null,
+                                edit: null,
+                                share: null,
+                                pdf: null,
+                                remove: null
+                            }
+                        },
+
+                        nodes: newArray
+
+                    });
+
+                }
+            })
+        });
+
+        function getTree(obj, result)
+        {
+            var innerobj = {}
+
+            for (const item in obj)
+            {
+                if (Array.isArray(obj[item]) == true)
+                {
+                    if (obj[item].length != 0)
+                    {
+                        getInnerTrees(obj[item], result)
+                    } else {
+                        continue;
+                    }
+                } else
+                {
+                    if (item == "Boss")
+                    {
+                        continue;
+                    }
+                    if(item == "BossId")
+                    {
+                        if (obj[item] != null)
+                        {
+                            innerobj["pid"] = obj[item];
+                        }
+                        continue;
+                    }
+                    if (item == "Id")
+                    {
+                        innerobj["id"] = obj[item];
+                        continue;
+                    }
+
+                    innerobj[item] = obj[item];
+                }
+            }
+
+            innerobj["img"] = "/images/placeholder.png";
+
+            result.push(innerobj)
+        }
+
+        function getInnerTrees(lst, result)
+        {
+            for (var i = 0; i < lst.length; i++)
+            {
+                getTree(lst[i], result);
+            }
+        }
+    </script>
+
+}
