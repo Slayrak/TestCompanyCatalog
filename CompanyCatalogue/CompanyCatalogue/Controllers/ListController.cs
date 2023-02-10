@@ -1,12 +1,8 @@
-﻿using Bogus.Bson;
-using CompanyCatalogue.DataAccess;
-using CompanyCatalogue.Helpers;
+﻿using CompanyCatalogue.Helpers;
 using CompanyCatalogue.Interfaces;
 using CompanyCatalogue.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
 
 namespace CompanyCatalogue.Controllers
 {
