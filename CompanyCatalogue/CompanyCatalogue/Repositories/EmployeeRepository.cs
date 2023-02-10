@@ -2,9 +2,7 @@
 using CompanyCatalogue.Helpers;
 using CompanyCatalogue.Interfaces;
 using CompanyCatalogue.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace CompanyCatalogue.Repositories
 {
@@ -118,8 +116,8 @@ namespace CompanyCatalogue.Repositories
                     if (pageOptions.SortingDirection == "Ascending")
                     {
                         return await _context.Employees
-                            .Where(x => 
-                                ((x.Fullname == filterOptions.EmployeeName && filterOptions.EmployeeName != null) 
+                            .Where(x =>
+                                ((x.Fullname == filterOptions.EmployeeName && filterOptions.EmployeeName != null)
                                 || (x.Fullname == x.Fullname && filterOptions.EmployeeName == null)) &&
                                 ((x.Position == filterOptions.Position && filterOptions.Position != null) ||
                                 (x.Position == x.Position && filterOptions.Position == null)) &&
@@ -273,16 +271,6 @@ namespace CompanyCatalogue.Repositories
         public async Task<Employee> GetByIdAsync(int id)
         {
             return await _context.Employees.Include(x => x.Subordinates).Include(x => x.Boss).FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task<Employee> GetTree(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Employee> GetTree(Employee employee)
-        {
-            throw new NotImplementedException();
         }
 
         public void Update(Employee employee)
