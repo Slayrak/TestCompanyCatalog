@@ -1,9 +1,10 @@
-﻿using CompanyCatalogue.DataAccess;
+﻿using Bogus.Bson;
+using CompanyCatalogue.DataAccess;
 using CompanyCatalogue.Helpers;
 using CompanyCatalogue.Interfaces;
 using CompanyCatalogue.Models;
-using CompanyCatalogue.Models.PassingModels;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 
 namespace CompanyCatalogue.Controllers
@@ -36,6 +37,10 @@ namespace CompanyCatalogue.Controllers
 
             ListPassModel.Number = (int)Math.Ceiling(await _employeeRepository.CountEntries() / (double)page.PageSize);
 
+            ListPassModel.MaxSalary = await _employeeRepository.GetMaxSalary();
+
+            ListPassModel.MinSalary = await _employeeRepository.GetMinSalary();
+
             return View(ListPassModel);
         }
 
@@ -52,55 +57,25 @@ namespace CompanyCatalogue.Controllers
             ListPassModel = new ListPassModel();
             ListPassModel.Employees = employees;
 
-
-            //switch (type)
-            //{
-            //    case "Name":
-            //        if(direction == "Ascending")
-            //        {
-            //            ListPassModel.Employees = employees.OrderBy(x => x.Fullname);
-            //        } else
-            //        {
-            //            ListPassModel.Employees = employees.OrderByDescending(x => x.Fullname);
-            //        }
-            //        break;
-            //    case "Position":
-            //        if (direction == "Ascending")
-            //        {
-            //            ListPassModel.Employees = employees.OrderBy(x => x.Position);
-            //        }
-            //        else
-            //        {
-            //            ListPassModel.Employees = employees.OrderByDescending(x => x.Position);
-            //        }
-            //        break;
-            //    case "Salary":
-            //        if (direction == "Ascending")
-            //        {
-            //            ListPassModel.Employees = employees.OrderBy(x => x.Salary);
-            //        }
-            //        else
-            //        {
-            //            ListPassModel.Employees = employees.OrderByDescending(x => x.Salary);
-            //        }
-            //        break;
-            //    case "Date of Employment":
-            //        if (direction == "Ascending")
-            //        {
-            //            ListPassModel.Employees = employees.OrderBy(x => x.DateOfEmployment);
-            //        }
-            //        else
-            //        {
-            //            ListPassModel.Employees = employees.OrderByDescending(x => x.DateOfEmployment);
-            //        }
-            //        break;
-            //    default:
-            //        break;
-            //}
-
             ListPassModel.Number = num;
 
             return PartialView("PartialTest", employees);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> GetPage(FilterOptions filter, int num, string type, string direction)
+        {
+            var page = new PageOptions();
+
+            var model = filter;
+
+            page.SortProperty = type;
+            page.SortingDirection = direction;
+            page.PageNumber = num;
+
+            employees = await _employeeRepository.GetFilteredPage(page, filter);
+            return PartialView("PartialTest", employees);
+        }
+
     }
 }

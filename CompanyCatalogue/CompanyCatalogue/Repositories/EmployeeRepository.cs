@@ -2,7 +2,6 @@
 using CompanyCatalogue.Helpers;
 using CompanyCatalogue.Interfaces;
 using CompanyCatalogue.Models;
-using CompanyCatalogue.Models.PassingModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -115,6 +114,165 @@ namespace CompanyCatalogue.Repositories
                             .ToListAsync();
         }
 
+        public async Task<IEnumerable<Employee>> GetFilteredPage(PageOptions pageOptions, FilterOptions filterOptions)
+        {
+            switch (pageOptions.SortProperty)
+            {
+                case "Name":
+                    if (pageOptions.SortingDirection == "Ascending")
+                    {
+                        return await _context.Employees
+                            .Where(x => 
+                                ((x.Fullname == filterOptions.EmployeeName && filterOptions.EmployeeName != null) 
+                                || (x.Fullname == x.Fullname && filterOptions.EmployeeName == null)) &&
+                                ((x.Position == filterOptions.Position && filterOptions.Position != null) ||
+                                (x.Position == x.Position && filterOptions.Position == null)) &&
+                                (x.Salary >= filterOptions.min) &&
+                                (x.Salary <= filterOptions.max)
+                                )
+                            .OrderBy(x => x.Fullname)
+                            .Skip((pageOptions.PageNumber - 1) * pageOptions.PageSize)
+                            .Take(pageOptions.PageSize)
+                            .ToListAsync();
+                    }
+                    else
+                    {
+                        return await _context.Employees
+                            .Where(x =>
+                                ((x.Fullname == filterOptions.EmployeeName && filterOptions.EmployeeName != null)
+                                || (x.Fullname == x.Fullname && filterOptions.EmployeeName == null)) &&
+                                ((x.Position == filterOptions.Position && filterOptions.Position != null) ||
+                                (x.Position == x.Position && filterOptions.Position == null)) &&
+                                (x.Salary >= filterOptions.min) &&
+                                (x.Salary <= filterOptions.max)
+                                )
+                            .OrderByDescending(x => x.Fullname)
+                            .Skip((pageOptions.PageNumber - 1) * pageOptions.PageSize)
+                            .Take(pageOptions.PageSize)
+                            .ToListAsync();
+                    }
+                    break;
+                case "Position":
+                    if (pageOptions.SortingDirection == "Ascending")
+                    {
+                        return await _context.Employees
+                            .Where(x =>
+                                ((x.Fullname == filterOptions.EmployeeName && filterOptions.EmployeeName != null)
+                                || (x.Fullname == x.Fullname && filterOptions.EmployeeName == null)) &&
+                                ((x.Position == filterOptions.Position && filterOptions.Position != null) ||
+                                (x.Position == x.Position && filterOptions.Position == null)) &&
+                                (x.Salary >= filterOptions.min) &&
+                                (x.Salary <= filterOptions.max)
+                                )
+                            .OrderBy(x => x.Position)
+                            .Skip((pageOptions.PageNumber - 1) * pageOptions.PageSize)
+                            .Take(pageOptions.PageSize)
+                            .ToListAsync();
+                    }
+                    else
+                    {
+                        return await _context.Employees
+                            .Where(x =>
+                                ((x.Fullname == filterOptions.EmployeeName && filterOptions.EmployeeName != null)
+                                || (x.Fullname == x.Fullname && filterOptions.EmployeeName == null)) &&
+                                ((x.Position == filterOptions.Position && filterOptions.Position != null) ||
+                                (x.Position == x.Position && filterOptions.Position == null)) &&
+                                (x.Salary >= filterOptions.min) &&
+                                (x.Salary <= filterOptions.max)
+                                )
+                             .OrderByDescending(x => x.Position)
+                             .Skip((pageOptions.PageNumber - 1) * pageOptions.PageSize)
+                             .Take(pageOptions.PageSize)
+                             .ToListAsync();
+                    }
+                    break;
+                case "Salary":
+                    if (pageOptions.SortingDirection == "Ascending")
+                    {
+                        return await _context.Employees
+                            .Where(x =>
+                                ((x.Fullname == filterOptions.EmployeeName && filterOptions.EmployeeName != null)
+                                || (x.Fullname == x.Fullname && filterOptions.EmployeeName == null)) &&
+                                ((x.Position == filterOptions.Position && filterOptions.Position != null) ||
+                                (x.Position == x.Position && filterOptions.Position == null)) &&
+                                (x.Salary >= filterOptions.min) &&
+                                (x.Salary <= filterOptions.max)
+                                )
+                            .OrderBy(x => x.Salary)
+                            .Skip((pageOptions.PageNumber - 1) * pageOptions.PageSize)
+                            .Take(pageOptions.PageSize)
+                            .ToListAsync();
+                    }
+                    else
+                    {
+                        return await _context.Employees
+                            .Where(x =>
+                                ((x.Fullname == filterOptions.EmployeeName && filterOptions.EmployeeName != null)
+                                || (x.Fullname == x.Fullname && filterOptions.EmployeeName == null)) &&
+                                ((x.Position == filterOptions.Position && filterOptions.Position != null) ||
+                                (x.Position == x.Position && filterOptions.Position == null)) &&
+                                (x.Salary >= filterOptions.min) &&
+                                (x.Salary <= filterOptions.max)
+                                )
+                            .OrderByDescending(x => x.Salary)
+                            .Skip((pageOptions.PageNumber - 1) * pageOptions.PageSize)
+                            .Take(pageOptions.PageSize)
+                            .ToListAsync();
+                    }
+                    break;
+                case "Date of Employment":
+                    if (pageOptions.SortingDirection == "Ascending")
+                    {
+                        return await _context.Employees
+                            .Where(x =>
+                                ((x.Fullname == filterOptions.EmployeeName && filterOptions.EmployeeName != null)
+                                || (x.Fullname == x.Fullname && filterOptions.EmployeeName == null)) &&
+                                ((x.Position == filterOptions.Position && filterOptions.Position != null) ||
+                                (x.Position == x.Position && filterOptions.Position == null)) &&
+                                (x.Salary >= filterOptions.min) &&
+                                (x.Salary <= filterOptions.max)
+                                )
+                            .OrderBy(x => x.DateOfEmployment)
+                            .Skip((pageOptions.PageNumber - 1) * pageOptions.PageSize)
+                            .Take(pageOptions.PageSize)
+                            .ToListAsync();
+                    }
+                    else
+                    {
+                        return await _context.Employees
+                            .Where(x =>
+                                ((x.Fullname == filterOptions.EmployeeName && filterOptions.EmployeeName != null)
+                                || (x.Fullname == x.Fullname && filterOptions.EmployeeName == null)) &&
+                                ((x.Position == filterOptions.Position && filterOptions.Position != null) ||
+                                (x.Position == x.Position && filterOptions.Position == null)) &&
+                                (x.Salary >= filterOptions.min) &&
+                                (x.Salary <= filterOptions.max)
+                                )
+                            .OrderByDescending(x => x.DateOfEmployment)
+                            .Skip((pageOptions.PageNumber - 1) * pageOptions.PageSize)
+                            .Take(pageOptions.PageSize)
+                            .ToListAsync();
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            return await _context.Employees
+                            .Where(x =>
+                                ((x.Fullname == filterOptions.EmployeeName && filterOptions.EmployeeName != null)
+                                || (x.Fullname == x.Fullname && filterOptions.EmployeeName == null)) &&
+                                ((x.Position == filterOptions.Position && filterOptions.Position != null) ||
+                                (x.Position == x.Position && filterOptions.Position == null)) &&
+                                (x.Salary >= filterOptions.min) &&
+                                (x.Salary <= filterOptions.max)
+                                )
+                            .OrderBy(x => x.Fullname)
+                            .Skip((pageOptions.PageNumber - 1) * pageOptions.PageSize)
+                            .Take(pageOptions.PageSize)
+                            .ToListAsync();
+        }
+
         public async Task<int> CountEntries()
         {
             return await _context.Employees.CountAsync();
@@ -143,6 +301,15 @@ namespace CompanyCatalogue.Repositories
         public void Delete(Employee employee)
         {
             _context.Employees.Remove(employee);
+        }
+
+        public async Task<int> GetMaxSalary()
+        {
+            return await _context.Employees.MaxAsync(x => x.Salary);
+        }
+        public async Task<int> GetMinSalary()
+        {
+            return await _context.Employees.MinAsync(x => x.Salary);
         }
 
         public void Save()

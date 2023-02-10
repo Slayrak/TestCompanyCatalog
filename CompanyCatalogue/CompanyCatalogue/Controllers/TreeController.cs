@@ -1,6 +1,5 @@
 ﻿using CompanyCatalogue.Helpers;
 using CompanyCatalogue.Interfaces;
-using CompanyCatalogue.Models.PassingModels;
 using CompanyCatalogue.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;

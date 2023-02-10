@@ -1,4 +1,4 @@
-﻿@model CompanyCatalogue.Models.PassingModels.ListPassModel
+﻿@model CompanyCatalogue.Helpers.ListPassModel
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,41 +9,82 @@
 <div id="maxNUmberOfPages" type="hidden" value="@Model.Number"></div>
 <div id="shiftValue" type="hidden" value="1"></div>
 
-<div id="EditCustomerPartial" style="display:flex; justify-content: flex-end; flex-direction:column">
-    <div class="sortFilter" style="display: flex; justify-content:space-around; flex-direction: row; margin-bottom: 30px"> 
-        <select class="form-control" id="SortingOptions" style="width: 30%;">
-            <option>Name</option>
-            <option>Position</option>
-            <option>Date of Employment</option>
-            <option>Salary</option>
-        </select>
-
-        <select class="form-control" id="AscendingDescending" style="width: 30%;">
-            <option>Ascending</option>
-            <option>Descending</option>
-        </select>
+<div style="display:flex; flex-direction:row; justify-content:space-around">
+    <div id="FiterData">
+        <form id="friendform">
+            <table>
+                <tr>
+                    <td>Employee Name</td>
+                    <td><input name="EmployeeName" type="text" /></td>
+                </tr>
+                <tr>
+                    <td>Salary</td>
+                    <td>
+                        <div class="range">
+                            <div class="range-slider">
+                            </div>
+                            <div class="range-input">
+                                <input type="range" class="min" min="@Model.MinSalary" max="@Model.MaxSalary" value="@Model.MinSalary" step="10">
+                                <input type="range" class="max" min="@Model.MinSalary" max="@Model.MaxSalary" value="@Model.MaxSalary" step="10">
+                            </div>
+                            <div class="range-price">
+                                <label for="min">Min</label>
+                                <input type="number" name="min" value="@Model.MinSalary" id="minSalary">
+                                <label for="max">Max</label>
+                                <input type="number" name="max" value="@Model.MaxSalary" id="maxSalary">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Position</td>
+                    <td><input id="txtPosition" name="Position" type="text" /></td>
+                </tr>
+            </table>
+            <div style="display: flex; justify-content: center; margin-top: 15px">
+                <input id="btnsubmit" class="btn btn-outline-dark" type="button" value="Submit" />
+            </div>
+            
+        </form>
     </div>
-    
-    <div id="ForPartial">
-        @Html.Partial("PartialTest", Model.Employees)
+
+    <div style="display:flex; flex-direction: column">
+        <div id="EditCustomerPartial" style="display:flex; justify-content: flex-end; flex-direction:column">
+            <div class="sortFilter" style="display: flex; justify-content:space-around; flex-direction: row; margin-bottom: 30px">
+                <select class="form-control sorting" id="SortingOptions" style="width: 30%;">
+                    <option>Name</option>
+                    <option>Position</option>
+                    <option>Date of Employment</option>
+                    <option>Salary</option>
+                </select>
+
+                <select class="form-control sorting" id="AscendingDescending" style="width: 30%;">
+                    <option>Ascending</option>
+                    <option>Descending</option>
+                </select>
+            </div>
+
+            <div id="ForPartial">
+                @Html.Partial("PartialTest", Model.Employees)
+            </div>
+        </div>
+
+        <ul class="pagination" id="pagination">
+            <li class="page-item" id="1"><a class="page-link">1</a></li>
+            <li class="page-item" id="2"><a class="page-link">2</a></li>
+            <li class="page-item" id="3"><a class="page-link">3</a></li>
+            <li class="page-item" id="4"><a class="page-link">4</a></li>
+            <li class="page-item" id="5"><a class="page-link">5</a></li>
+        </ul>
     </div>
 </div>
-
-<ul class="pagination" id="pagination">
-    <li class="page-item" id="1"><a class="page-link">1</a></li>
-    <li class="page-item" id="2"><a class="page-link">2</a></li>
-    <li class="page-item" id="3"><a class="page-link">3</a></li>
-    <li class="page-item" id="4"><a class="page-link">4</a></li>
-    <li class="page-item" id="5"><a class="page-link">5</a></li>
-</ul>
-
 
     @section Scripts
     {
 
     <script type="text/javascript">
 
-        document.getElementById('SortingOptions').onchange = function () {
+        $('.sortFilter select.sorting').change(function () {
 
             var ul = document.getElementById("pagination");
             var items = ul.getElementsByTagName("li");
@@ -54,42 +95,37 @@
 
             var shift = Number(document.getElementById('shiftValue').getAttribute('value'));
 
-            if(shift - 2 < minPage)
-            {
+            if (shift - 2 < minPage) {
                 localMin = 1;
             } else {
                 localMin = shift - 2;
             }
 
-            if(shift + 2 > maxPage)
-            {
+            if (shift + 2 > maxPage) {
                 localMax = maxPage
             } else {
                 localMax = shift + 2;
             }
 
             for (var i = 0; i < items.length; i++) {
-                
+
                 items[i].children[0].innerHTML = localMin;
                 localMin++;
                 items[i].children[0].style.backgroundColor = 'white';
 
-                if (items[i].textContent == shift)
-                {
+                if (items[i].textContent == shift) {
                     items[i].children[0].style.backgroundColor = '#EAECEF';
                 }
             }
-            
 
-            for (var i = items.length - 1; i >= 0; i--) 
-            {
 
-                if (localMax < items[i].textContent)
-                 {
-                     items[i].hidden = true;
-                 } else {
-                     items[i].hidden = false;
-                 }
+            for (var i = items.length - 1; i >= 0; i--) {
+
+                if (localMax < items[i].textContent) {
+                    items[i].hidden = true;
+                } else {
+                    items[i].hidden = false;
+                }
 
             }
 
@@ -97,18 +133,38 @@
             var type = document.getElementById("SortingOptions").value;
             var direction = document.getElementById("AscendingDescending").value;
 
+            var valdata = $("#friendform").serialize();
+
+            valdata = convertFormToJSON($("#friendform"));
+
+            //$.ajax({
+            //    url: "@(Url.Action("LoadMore", "List"))",
+            //    type: "Get",
+            //    data: { num, type, direction },
+            //    cache: false,
+            //    async: true,
+            //    success: function (data) {
+            //        $('#ForPartial').html(data);
+            //    }
+            //});
+
             $.ajax({
-                url: "@(Url.Action("LoadMore", "List"))",
-                type: "Get",
-                data: { num, type, direction },
-                cache: false,
-                async: true,
+                url: "@(Url.Action("GetPage", "List"))",
+                type: "POST",
+                data:
+                {
+                    filter: valdata,
+                    num: num,
+                    type: type,
+                    direction: direction,
+                },
+                asnc: true,
                 success: function (data) {
                     $('#ForPartial').html(data);
                 }
             });
 
-        }
+        });
 
         $("#pagination li").click(function () {
 
@@ -166,18 +222,113 @@
             var type = document.getElementById("SortingOptions").value;
             var direction = document.getElementById("AscendingDescending").value;
 
+            var valdata = $("#friendform").serialize();
+
+            valdata = convertFormToJSON($("#friendform"));
+
+            //$.ajax({
+            //    url: "@(Url.Action("LoadMore", "List"))",
+            //    type: "Get",
+            //    data: { num, type, direction },
+            //    cache: false,
+            //    async: true,
+            //    success: function (data) {
+            //        $('#ForPartial').html(data);
+            //    }
+            //});
+
             $.ajax({
-                url: "@(Url.Action("LoadMore", "List"))",
-                type: "Get",
-                data: { num, type, direction },
-                cache: false,
-                async: true,
+                url: "@(Url.Action("GetPage", "List"))",
+                type: "POST",
+                data:
+                {
+                    filter: valdata,
+                    num: num,
+                    type: type,
+                    direction: direction,
+                },
+                asnc:true,
                 success: function (data) {
                     $('#ForPartial').html(data);
                 }
             });
 
         });
+
+        let rangeMin = 100;
+        const range = document.querySelector(".range-selected");
+        const rangeInput = document.querySelectorAll(".range-input input");
+        const rangePrice = document.querySelectorAll(".range-price input");
+
+        rangeInput.forEach((input) => {
+            input.addEventListener("input", (e) => {
+                let minRange = parseInt(rangeInput[0].value);
+                let maxRange = parseInt(rangeInput[1].value);
+                if (maxRange - minRange < rangeMin) {
+                    if (e.target.className === "min") {
+                        rangeInput[0].value = maxRange - rangeMin;
+                    } else {
+                        rangeInput[1].value = minRange + rangeMin;
+                    }
+                } else {
+                    rangePrice[0].value = minRange;
+                    rangePrice[1].value = maxRange;
+                    range.style.left = (@Model.MinSalary / rangeInput[0].max) * 100 + "%";
+                    range.style.right = 100 - (maxRange / rangeInput[1].max) * 100 + "%";
+                }
+            });
+        });
+
+        rangePrice.forEach((input) => {
+            input.addEventListener("input", (e) => {
+                let minPrice = rangePrice[0].value;
+                let maxPrice = rangePrice[1].value;
+                if (maxPrice - minPrice >= rangeMin && maxPrice <= rangeInput[1].max) {
+                    if (e.target.className === "min") {
+                        rangeInput[0].value = minPrice;
+                        range.style.left = (minPrice / rangeInput[0].max) * 100 + "%";
+                    } else {
+                        rangeInput[1].value = maxPrice;
+                        range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
+                    }
+                }
+            });
+        });
+
+        $("#btnsubmit").click(function (e) {
+            var valdata = $("#friendform").serialize();
+
+            valdata = convertFormToJSON($("#friendform"));
+
+            var num = Number(document.getElementById('shiftValue').getAttribute('value'));
+            var type = document.getElementById("SortingOptions").value;
+            var direction = document.getElementById("AscendingDescending").value;
+            $.ajax({
+                url: "@(Url.Action("GetPage", "List"))",
+                type: "POST",
+                data:
+                {
+                    filter: valdata,
+                    num: num,
+                    type: type,
+                    direction: direction,
+                },
+                success: function (data) {
+                    $('#ForPartial').html(data);
+                }
+            });
+
+        });
+
+        function convertFormToJSON(form) {
+            const array = $(form).serializeArray(); // Encodes the set of form elements as an array of names and values.
+            const json = {};
+            $.each(array, function () {
+                json[this.name] = this.value || "";
+            });
+            return json;
+        }
+
     </script>
 
     }

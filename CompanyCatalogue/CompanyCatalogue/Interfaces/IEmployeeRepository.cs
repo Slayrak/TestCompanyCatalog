@@ -10,8 +10,12 @@ namespace CompanyCatalogue.Interfaces
         Task<IEnumerable<Employee>> GetAll();
 
         Task<IEnumerable<Employee>> GetPage(PageOptions pageOptions);
+        Task<IEnumerable<Employee>> GetFilteredPage(PageOptions pageOptions, FilterOptions filterOptions);
 
         Task<int> CountEntries();
+
+        Task<int> GetMaxSalary();
+        Task<int> GetMinSalary();
 
         Task<Employee> GetTree(int id);
         Task<Employee> GetTree(Employee employee);
