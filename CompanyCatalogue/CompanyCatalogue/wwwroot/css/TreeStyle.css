@@ -1,0 +1,11 @@
+﻿[data-n-id] line {
+    display:none;
+}
+
+.node.chosen rect {
+    fill: green;
+}
+
+.node.common rect {
+    fill: white;
+}
