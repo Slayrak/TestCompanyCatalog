@@ -137,17 +137,6 @@
 
             valdata = convertFormToJSON($("#friendform"));
 
-            //$.ajax({
-            //    url: "@(Url.Action("LoadMore", "List"))",
-            //    type: "Get",
-            //    data: { num, type, direction },
-            //    cache: false,
-            //    async: true,
-            //    success: function (data) {
-            //        $('#ForPartial').html(data);
-            //    }
-            //});
-
             $.ajax({
                 url: "@(Url.Action("GetPage", "List"))",
                 type: "POST",
@@ -225,17 +214,6 @@
             var valdata = $("#friendform").serialize();
 
             valdata = convertFormToJSON($("#friendform"));
-
-            //$.ajax({
-            //    url: "@(Url.Action("LoadMore", "List"))",
-            //    type: "Get",
-            //    data: { num, type, direction },
-            //    cache: false,
-            //    async: true,
-            //    success: function (data) {
-            //        $('#ForPartial').html(data);
-            //    }
-            //});
 
             $.ajax({
                 url: "@(Url.Action("GetPage", "List"))",
@@ -321,7 +299,7 @@
         });
 
         function convertFormToJSON(form) {
-            const array = $(form).serializeArray(); // Encodes the set of form elements as an array of names and values.
+            const array = $(form).serializeArray();
             const json = {};
             $.each(array, function () {
                 json[this.name] = this.value || "";

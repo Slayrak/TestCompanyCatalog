@@ -1,11 +1,12 @@
-﻿using CompanyCatalogue.Helpers;
-using CompanyCatalogue.Interfaces;
+﻿using CompanyCatalogue.Interfaces;
 using CompanyCatalogue.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace CompanyCatalogue.Controllers
 {
+    [Authorize]
     public class TreeController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
@@ -17,32 +18,28 @@ namespace CompanyCatalogue.Controllers
             _employeeService = employeeService;
         }
 
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(int id)
         {
-            var test = await _employeeService.GetLowerLevel(1);
+            Employee test = await _employeeService.GetLowerLevel(id);
 
-            string json = JsonConvert.SerializeObject(test, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                });
+            Employee test2 = await _employeeService.GetFullTree(test);
 
             return View(test);
         }
 
-
-        [HttpGet]
-        public async Task<IActionResult> EmployeeTree(int id)
+        [HttpPost]
+        public async Task<IActionResult> GetTree(int id)
         {
-            var test = await _employeeService.GetLowerLevel(id);
+            Employee test = await _employeeService.GetLowerLevel(id);
 
-            string json = JsonConvert.SerializeObject(test, Formatting.Indented,
+            Employee test2 = await _employeeService.GetFullTree(test);
+
+            return Json(JsonConvert.SerializeObject(test2, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                });
-
-            return View("EmployeeTree", test);
+                }));
         }
     }
 }

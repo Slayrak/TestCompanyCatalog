@@ -1,96 +1,128 @@
-﻿@model Employee
+﻿@using Newtonsoft.Json
+
+@model Employee
+
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
 
-<button id="testingButton">Click me!</button>
+<div id="forList" style="display: flex; flex:1 1 auto; min-height: 750px;"></div>
 
 @section Scripts
     {
     <script type="text/javascript">
         $("document").ready(function () {
-            let markupArray = ['<ul>'];
 
-            //var check = document.getElementById('listJs').getAttribute('value')
+            let obj;
 
-            //for (var i = 0; i < check.length; i++)
-            //{
-            //    alert(check[i]);
-            //}
+            $.ajax({
+                url: "@Url.Action("GetTree", "Tree")",
+                dataType: "json",
+                type: "POST",
+                data: { id: Number(@Model.Id) },
+                success: function (data) {
+                    obj = JSON.parse(data);
 
-            //alert(check);
+                    let newArray = []
+
+                    getTree(obj, newArray)
+
+                    for (var i = 0; i < newArray.length; i++) {
+                        var node = newArray[i];
+
+                        if(node.id == @Model.Id)
+                        {
+                            node.tags = ["chosen"];
+                        } else {
+                            node.tags = ["common"];
+                        }
+                    }
+
+                    OrgChart.templates.ula.size = [400, 150];
+
+                    //'<text data-width="135" class="olivia - f0" x="100" y="55" data - text - overflow="multiline" > { val } < /text>'
+                    
+
+                    var chart = new OrgChart(document.getElementById("forList"), {
+
+                        scaleInitial: OrgChart.match.height,
+                        template: "ula",
+                        nodeBinding: {
+                            field_0: "Fullname",
+                            field_1: "Position",
+                            img_0: "img",
+                            
+                        },
+                        editForm: {
+                            buttons: {
+                                map: null,
+                                edit: null,
+                                share: null,
+                                pdf: null,
+                                remove: null
+                            }
+                        },
+
+                        nodes: newArray
+
+                    });
+
+                }
+            })
         });
 
-        $("#testingButton").click(function () {
+        function getTree(obj, result)
+        {
+            var innerobj = {}
 
-            alert(@Model);
+            for (const item in obj)
+            {
+                if (Array.isArray(obj[item]) == true)
+                {
+                    if (obj[item].length != 0)
+                    {
+                        getInnerTrees(obj[item], result)
+                    } else {
+                        continue;
+                    }
+                } else
+                {
+                    if (item == "Boss")
+                    {
+                        continue;
+                    }
+                    if(item == "BossId")
+                    {
+                        if (obj[item] != null)
+                        {
+                            innerobj["pid"] = obj[item];
+                        }
+                        continue;
+                    }
+                    if (item == "Id")
+                    {
+                        innerobj["id"] = obj[item];
+                        continue;
+                    }
 
-            //createList(@Model);
-            //markupArray.push("</ul>");
-            //$("#listJs").html(markupArray.join(""));
-
-        })
-
-
-        const getItems = (items) => {
-            for (const item in items) {
-                // push li tags for parent
-                // with nested opening ul tag for children
-                markupArray.push(`<li> <a> ${item} </a> <ul>`);
-                // evaluate expression for children
-                createList(items[item]);
-                // push closing tage
-                markupArray.push("</ul></li>");
+                    innerobj[item] = obj[item];
+                }
             }
-        };
 
-        const createList = (items) => {
-            switch ($.type(items)) {
-                case "object":
-                    getItems(items);
-                    break;
-                case "string":
-                    markupArray.push(`<li> <span> ${items} </span> </li>`);
-                    break;
-                case "array":
-                    items.forEach((item) => {
-                        createList(item);
-                    });
-                    break;
+            innerobj["img"] = "/images/placeholder.png";
+
+            result.push(innerobj)
+        }
+
+        function getInnerTrees(lst, result)
+        {
+            for (var i = 0; i < lst.length; i++)
+            {
+                getTree(lst[i], result);
             }
-        };
-
-
-                //window.onload = () => {
-                //   alert(@Model);
-                //};
-
-                //const createList = (items) => {
-                //    switch ($.type(items)) {
-                //        case "object":
-                //            getItems(items);
-                //            break;
-                //        case "string":
-                //            markupArray.push(`<li> <span> ${items} </span> </li>`);
-                //            break;
-                //        case "array":
-                //            items.forEach((item) => {
-                //                createList(item);
-                //            });
-                //            break;
-                //    }
-                //};
-
-                //const createList = (items) => {
-                //    case "array":
-                //    items.forEach((item) => {
-                //    createList(item);
-                //    });
-                //    break;
-                //  }
-                //};
+        }
     </script>
 
 }
