@@ -44,7 +44,7 @@
             <div style="display: flex; justify-content: center; margin-top: 15px">
                 <input id="btnsubmit" class="btn btn-outline-dark" type="button" value="Submit" />
             </div>
-            
+
         </form>
     </div>
 
@@ -79,7 +79,7 @@
     </div>
 </div>
 
-    @section Scripts
+@section Scripts
     {
 
     <script type="text/javascript">
@@ -168,42 +168,37 @@
 
             var shift = Number(document.getElementById('shiftValue').getAttribute('value'));
 
-            if(shift - 2 < minPage)
-            {
+            if (shift - 2 < minPage) {
                 localMin = 1;
             } else {
                 localMin = shift - 2;
             }
 
-            if(shift + 2 > maxPage)
-            {
+            if (shift + 2 > maxPage) {
                 localMax = maxPage
             } else {
                 localMax = shift + 2;
             }
 
             for (var i = 0; i < items.length; i++) {
-                
+
                 items[i].children[0].innerHTML = localMin;
                 localMin++;
                 items[i].children[0].style.backgroundColor = 'white';
 
-                if (items[i].textContent == shift)
-                {
+                if (items[i].textContent == shift) {
                     items[i].children[0].style.backgroundColor = '#EAECEF';
                 }
             }
-            
 
-            for (var i = items.length - 1; i >= 0; i--) 
-            {
 
-                if (localMax < items[i].textContent)
-                 {
-                     items[i].hidden = true;
-                 } else {
-                     items[i].hidden = false;
-                 }
+            for (var i = items.length - 1; i >= 0; i--) {
+
+                if (localMax < items[i].textContent) {
+                    items[i].hidden = true;
+                } else {
+                    items[i].hidden = false;
+                }
 
             }
 
@@ -225,7 +220,7 @@
                     type: type,
                     direction: direction,
                 },
-                asnc:true,
+                asnc: true,
                 success: function (data) {
                     $('#ForPartial').html(data);
                 }
@@ -252,7 +247,7 @@
                     rangePrice[0].value = minRange;
                     rangePrice[1].value = maxRange;
                     range.style.left = (@Model.MinSalary / rangeInput[0].max) * 100 + "%";
-                    range.style.right = 100 - (maxRange / rangeInput[1].max) * 100 + "%";
+                                    range.style.right = 100 - (maxRange / rangeInput[1].max) * 100 + "%";
                 }
             });
         });
@@ -278,6 +273,8 @@
 
             valdata = convertFormToJSON($("#friendform"));
 
+            document.getElementById('shiftValue').setAttribute('value', 1);
+
             var num = Number(document.getElementById('shiftValue').getAttribute('value'));
             var type = document.getElementById("SortingOptions").value;
             var direction = document.getElementById("AscendingDescending").value;
@@ -292,7 +289,61 @@
                     direction: direction,
                 },
                 success: function (data) {
+                    var ul = document.getElementById("pagination");
+                    var items = ul.getElementsByTagName("li");
+                    var minPage = 1;
+                    var maxPage = @Model.Number;
+                    var localMax = 0;
+                    var localMin = 1;
+
+                    document.getElementById('shiftValue').setAttribute('value', 1);
+
+                    var shift = Number(document.getElementById('shiftValue').getAttribute('value'));
+
+                    if (shift - 2 < minPage) {
+                        localMin = 1;
+                    } else {
+                        localMin = shift - 2;
+                    }
+
+                    if (shift + 2 > maxPage) {
+                        localMax = maxPage
+                    } else {
+                        localMax = shift + 2;
+                    }
+
+                    for (var i = 0; i < items.length; i++) {
+
+                        items[i].children[0].innerHTML = localMin;
+                        localMin++;
+                        items[i].children[0].style.backgroundColor = 'white';
+
+                        if (items[i].textContent == shift) {
+                            items[i].children[0].style.backgroundColor = '#EAECEF';
+                        }
+                    }
+
+
+                    for (var i = items.length - 1; i >= 0; i--) {
+
+                        if (localMax < items[i].textContent) {
+                            items[i].hidden = true;
+                        } else {
+                            items[i].hidden = false;
+                        }
+
+                    }
+
+                    var num = shift;
+                    var type = document.getElementById("SortingOptions").value;
+                    var direction = document.getElementById("AscendingDescending").value;
+
+                    var valdata = $("#friendform").serialize();
+
+                    valdata = convertFormToJSON($("#friendform"));
+
                     $('#ForPartial').html(data);
+                        
                 }
             });
 

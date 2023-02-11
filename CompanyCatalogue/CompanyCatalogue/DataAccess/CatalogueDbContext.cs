@@ -1,6 +1,4 @@
 ﻿using CompanyCatalogue.Models;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -28,12 +26,6 @@ namespace CompanyCatalogue.DataAccess
                 .WithMany(x => x.Subordinates)
                 .HasForeignKey(x => x.BossId)
                 .OnDelete(DeleteBehavior.NoAction);
-
-            //modelBuilder.Entity<Employee>().HasData(DataGenerator.Generate());
-            //modelBuilder.Entity<Employee>().HasData(DataGenerator.Generate());
-                
-
-
         }
     }
 }

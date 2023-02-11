@@ -10,15 +10,13 @@ namespace CompanyCatalogue.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly IdentityDbContext _identityDbContext;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IdentityDbContext identityDbContext)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _identityDbContext = identityDbContext;
         }
- 
+
         public IActionResult Login()
         {
             var response = new LoginModel();
@@ -32,13 +30,13 @@ namespace CompanyCatalogue.Controllers
 
             var user = await _userManager.FindByEmailAsync(loginModel.Email);
 
-            if(user != null)
+            if (user != null)
             {
                 var passwordCheck = await _userManager.CheckPasswordAsync(user, loginModel.Password);
-                if(passwordCheck)
+                if (passwordCheck)
                 {
                     var result = await _signInManager.PasswordSignInAsync(user, loginModel.Password, true, false);
-                    if(result.Succeeded)
+                    if (result.Succeeded)
                     {
                         return RedirectToAction("Index", "Home");
                     }
@@ -59,11 +57,11 @@ namespace CompanyCatalogue.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterModel registerModel)
         {
-            if(!ModelState.IsValid) return View(registerModel);
+            if (!ModelState.IsValid) return View(registerModel);
 
             var user = await _userManager.FindByEmailAsync(registerModel.Email);
 
-            if(user != null)
+            if (user != null)
             {
                 TempData["Error"] = "This email address is already in use";
                 return View(registerModel);
@@ -75,23 +73,24 @@ namespace CompanyCatalogue.Controllers
                 UserName = registerModel.Email,
             };
 
-            if(registerModel.Password != registerModel.ConfirmPassword)
+            if (registerModel.Password != registerModel.ConfirmPassword)
             {
                 TempData["Error"] = "Password does not match";
                 return View(registerModel);
             }
 
             var newUserResponse = await _userManager.CreateAsync(newUser, registerModel.Password);
-            if(newUserResponse.Succeeded)
+            if (newUserResponse.Succeeded)
             {
+                user = await _userManager.FindByEmailAsync(registerModel.Email);
+                var result = await _signInManager.PasswordSignInAsync(user, registerModel.Password, true, false);
                 return RedirectToAction("Index", "Home");
-            } else
+            }
+            else
             {
                 TempData["Error"] = newUserResponse.Errors.First().Description;
                 return View(registerModel);
             }
-
-            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> Logout()

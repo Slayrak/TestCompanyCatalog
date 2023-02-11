@@ -17,9 +17,6 @@ namespace CompanyCatalogue.Interfaces
         Task<int> GetMaxSalary();
         Task<int> GetMinSalary();
 
-        Task<Employee> GetTree(int id);
-        Task<Employee> GetTree(Employee employee);
-
         Task Add(Employee employee);
         void Update(Employee employee);
         void Delete(Employee employee);
